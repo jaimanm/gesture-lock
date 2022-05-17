@@ -1,0 +1,8 @@
+Made by: Jaiman Munshi (10), Alex Zhang (10), Nancy Puthenpurayil (11)
+----GESTURE LOCK----
+
+A lock that is unlocked not by a key, or a number wheel, or a fingerprint, but by displaying the right hand gesture or gestures in front of the lock.
+A camera embedded in the device will scan for the right gesture.
+The code is in python and will most likely run on openCV, or mediapipe, or both.
+
+Made for: APCSA end of year project 2021-2022
