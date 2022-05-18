@@ -10,14 +10,14 @@ from tensorflow.keras.models import load_model
 
 # initialize mediapipe
 mpHands = mp.solutions.hands
-hands = mpHands.Hands(max_num_hands=2, min_detection_confidence=0.7)
+hands = mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
 mpDraw = mp.solutions.drawing_utils
 
 # Load the gesture recognizer model
-model = load_model('jaiman_downloaded_code_copy\mp_hand_gesture')
+model = load_model('gesture-lock\hand-gesture-recognition-code\mp_hand_gesture')
 
 # Load class names
-f = open('jaiman_downloaded_code_copy\gesture.names', 'r')
+f = open('gesture-lock\hand-gesture-recognition-code\gesture.names', 'r')
 classNames = f.read().split('\n')
 f.close()
 print(classNames)
