@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+import numpy as np
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
@@ -47,8 +48,19 @@ with mp_hands.Hands(
           temp.append(int(hand_landmarks.landmark[mp_hands.HandLandmark(i).value].z * -100))
           list.append(temp)
         temp2 = list
+
+
+
+        #identify gesture
+        str = ""
+        for i in range(5) :
+          dist1 = np.hypot(list[(i + 1) * 4][2] - list[0][2], list[((i + 1) * 4)][3] - list[0][3])
+          dist2 = np.hypot(list[(i + 1) * 4 - 1][2] - list[0][2], list[((i + 1) * 4 - 1)][3] - list[0][3])
+          if dist1 > dist2 :
+            str = str + "1"
+          else :
+            str = str + "0"
     # Flip the image horizontally for a selfie-view display.
-    if len(temp2) > 0: print(temp2)
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
     if cv2.waitKey(5) == ord('q'):
       break
