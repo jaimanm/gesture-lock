@@ -3,7 +3,6 @@
 # import necessary packages
 
 import cv2
-from matplotlib import pyplot as plt
 import numpy as np
 import mediapipe as mp
 import tensorflow as tf
@@ -11,17 +10,17 @@ from tensorflow.keras.models import load_model
 
 # initialize mediapipe
 mpHands = mp.solutions.hands
-hands = mpHands.Hands(max_num_hands=5, min_detection_confidence=0.7)
+hands = mpHands.Hands(max_num_hands=2, min_detection_confidence=0.7)
 mpDraw = mp.solutions.drawing_utils
 
 # Load the gesture recognizer model
-# model = load_model('jaiman_downloaded_code\mp_hand_gesture') # CAUSING ERROR
+model = load_model('jaiman_downloaded_code_copy\mp_hand_gesture')
 
 # Load class names
-f = open('jaiman_downloaded_code\gesture.names', 'r')
+f = open('jaiman_downloaded_code_copy\gesture.names', 'r')
 classNames = f.read().split('\n')
 f.close()
-# print(classNames)
+print(classNames)
 
 
 # Initialize the webcam
@@ -49,6 +48,7 @@ while True:
         landmarks = []
         for handslms in result.multi_hand_landmarks:
             for lm in handslms.landmark:
+                # print(id, lm)
                 lmx = int(lm.x * x)
                 lmy = int(lm.y * y)
 
@@ -57,16 +57,15 @@ while True:
             # Drawing landmarks on frames
             mpDraw.draw_landmarks(frame, handslms, mpHands.HAND_CONNECTIONS)
 
+            # Predict gesture
+            prediction = model.predict([landmarks])
+            # print(prediction)
+            classID = np.argmax(prediction)
+            className = classNames[classID]
 
-    #         # Predict gesture
-    #         prediction = model.predict([landmarks])
-    #         # print(prediction)
-    #         classID = np.argmax(prediction)
-    #         className = classNames[classID]
-
-    # # show the prediction on the frame
-    # cv2.putText(frame, className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
-    #                1, (0,0,255), 2, cv2.LINE_AA)
+    # show the prediction on the frame
+    cv2.putText(frame, className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                   1, (0,0,255), 2, cv2.LINE_AA)
 
     # Show the final output
     cv2.imshow("Output", frame) 
