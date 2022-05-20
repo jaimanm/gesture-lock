@@ -79,12 +79,15 @@ def getInput(num):
             anotherList.append(dec_number)
         else :
           anotherList.append(-1)
+          print(-1)
         # Flip the image horizontally for a selfie-view display.
         cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
         if cv2.waitKey(5) == ord('q'):
           break
         if count >= 50:
-          inputPw.append(max(set(anotherList), key = anotherList.count))
+          mode = max(set(anotherList), key = anotherList.count)
+          inputPw.append(mode)
+          print(mode)
           break
         count += 1 
   print(inputPw)
