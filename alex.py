@@ -3,8 +3,8 @@ import mediapipe as mp
 import numpy as np
 import time
 cap = cv2.VideoCapture(0)
-pw = [0, 1, 2, 3, 17]
-locked = False
+pw = [0, 1, 2, 3]
+locked = True
 
 def getInput(num):
   num = int(num)
@@ -81,14 +81,14 @@ def getInput(num):
           anotherList.append(-1)
         # Flip the image horizontally for a selfie-view display.
         cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
-        if cv2.waitKey(5) == ord('q'):
-          break
         if count >= 50:
           mode = max(set(anotherList), key = anotherList.count)
           inputPw.append(mode)
           print(mode)
           break
         count += 1 
+        if cv2.waitKey(5) == ord('q'):
+          quit()
   print(inputPw)
   return inputPw
 

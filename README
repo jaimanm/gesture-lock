@@ -4,11 +4,11 @@ Made for: APCSA end of year project 2021-2022, Ridge Robotics Club 2021-2022
 ----GESTURE LOCK----
 
 A lock that is unlocked not by a key, or a number wheel, or a fingerprint, but by displaying the right hand gesture or gestures in front of the lock.
-A camera embedded in the device will scan for the right gesture.
+A camera embedded in the lock will scan for the right gesture(s).
 The code is in python and runs on opencv for the camera and mediapipe's ai hand tracking program.
 Any code that doesn't use mediapipe or opencv is 100% original and is made largely in part by Alex Zhang.
 
 Here's How it works:
-The gesture passcode is based on binary, where each finger on your hand represents as a binary digit (0/1). A closed fist represents 00000 (0). An open hand represents 11111 (31). A thumbs-up represents 10000 (1). A peace sign would be 01100 (4).
+The gesture passcode is based on binary, where each finger on your hand represents as a binary digit (0/1). A closed fist represents 00000 (0). An open hand represents 11111 (31). A thumbs-up represents 00001 (1). A peace sign would be 00110 (4).
 
 The lock will prompt you to show each gesture in the passcode, and will unlock if you show the right combination of finger binary symbols. Once unlocked, you will have the option to change the password or lock. The new password can be any length > 0. If there are no hands detected when you're prompted to show a gesture, the lock will record a value of -1.
