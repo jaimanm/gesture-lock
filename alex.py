@@ -2,25 +2,22 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import time
-
-#cv2/mediapipe setup
 cap = cv2.VideoCapture(0)
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-mp_hands = mp.solutions.hands
-
 locked = False
 pw = []
+
 def getInput(num):
   num = int(num)
   inputPw = []
-  
+  mp_drawing = mp.solutions.drawing_utils
+  mp_drawing_styles = mp.solutions.drawing_styles
+  mp_hands = mp.solutions.hands
   # For webcam input:
   for i in range(num) :
     print("Prepare Gesture " + str(i + 1))
     time.sleep(1)
     count = 0
-    numList = []
+    anotherList = []
     with mp_hands.Hands(
         model_complexity=0,
         min_detection_confidence=0.5,
@@ -76,13 +73,13 @@ def getInput(num):
               else :
                 s = s + "1"
             dec_number = int(s[::-1], 2)
-            numList.append(dec_number)
+            anotherList.append(dec_number)
         else :
-          numList.append(-1)
+          anotherList.append(-1)
         # Flip the image horizontally for a selfie-view display.
         cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
         if count >= 30:
-          mode = max(set(numList), key = numList.count)
+          mode = max(set(anotherList), key = anotherList.count)
           inputPw.append(mode)
           print(mode)
           break
@@ -135,3 +132,4 @@ while True :
   elif x == 1 :
     print("setPwFunction")
     setPw()
+# cap.release()
