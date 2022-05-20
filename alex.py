@@ -3,9 +3,8 @@ import mediapipe as mp
 import numpy as np
 import time
 cap = cv2.VideoCapture(0)
-pw = [0, 1, 2, 3]
-locked = True
-
+locked = False
+pw = []
 def getInput(num):
   num = int(num)
   inputPw = []
@@ -39,7 +38,6 @@ def getInput(num):
         # Draw the hand annotations on the image.
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        temp2 = []
         
         if results.multi_hand_landmarks:
           for hand_no, hand_landmarks in enumerate(results.multi_hand_landmarks):
@@ -58,8 +56,6 @@ def getInput(num):
               temp.append(int(hand_landmarks.landmark[mp_hands.HandLandmark(i).value].y * cap.get(4)))
               temp.append(int(hand_landmarks.landmark[mp_hands.HandLandmark(i).value].z * -100))
               list.append(temp)
-            temp2 = list
-
 
             #todo: create average of palm points to accurately depict thumb distance
             #identify gesture
@@ -123,6 +119,7 @@ def lock() :
   else :
     locked = True
     print("locked")
+setPw()
 while True :
   x = getInput(1)[0]
   if x == 0 :
