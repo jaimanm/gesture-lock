@@ -4,7 +4,8 @@ import numpy as np
 import time
 cap = cv2.VideoCapture(0)
 pw = [0, 1, 2, 3, 17]
-locked = True
+locked = False
+
 def getInput(num):
   num = int(num)
   inputPw = []
@@ -74,33 +75,61 @@ def getInput(num):
                 s = s + "0"
               else :
                 s = s + "1"
-            dec_number= int(s[::-1], 2)
+            dec_number = int(s[::-1], 2)
             anotherList.append(dec_number)
-            blank = str(hand_no + 1)
-            blank2 = str(dec_number)
-            #print("Hand number: " + blank + " : " + blank2)
+        else :
+          anotherList.append(-1)
         # Flip the image horizontally for a selfie-view display.
         cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
         if cv2.waitKey(5) == ord('q'):
           break
         if count >= 50:
-          if len(anotherList) > 0:
-            inputPw.append(max(set(anotherList), key = anotherList.count))
-          else :
-            inputPw.append(-1)
+          inputPw.append(max(set(anotherList), key = anotherList.count))
           break
         count += 1 
   print(inputPw)
   return inputPw
+
 def checkPw():
-  if locked == True :
+  global locked, pw
+  print("pw is now", pw)
+  if locked :
     if pw == getInput(len(pw)) :
       locked = False
+      print("unlocked")
+    else :
+      print("wrong pw")
+  else :
+    print("already unlocked")
   
 def setPw() :
+  global locked, pw
   if locked == False :
+    print("input length of new password")
     x = getInput(1)[0]
     if not x == 0 :
-      pw = getInput(getInput(1)[0])
-print(checkPw())
-cap.release()
+      pw = getInput(x)
+      print("Password is now", pw)
+      lock()
+      print("set and locked")
+  else :
+    print("cannot set pw")
+def lock() :
+  global locked
+  if locked :
+    print("already locked")
+  else :
+    locked = True
+    print("locked")
+while True :
+  x = getInput(1)[0]
+  if x == 0 :
+    print("lockFunction")
+    lock()
+  elif x == 31 :
+    print("checkPwFunction")
+    checkPw()
+  elif x == 1 :
+    print("setPwFunction")
+    setPw()
+# cap.release()
