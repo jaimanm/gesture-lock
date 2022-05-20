@@ -100,7 +100,7 @@ def checkPw():
 def setPw() :
   if locked == False :
     x = getInput(1)[0]
-    if not x == 0 : 
+    if not x == 0 :
       pw = getInput(getInput(1)[0])
 print(checkPw())
 cap.release()
