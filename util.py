@@ -78,7 +78,7 @@ class gesturelock:
             anotherList.append(-1)
           # Flip the image horizontally for a selfie-view display.
           cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
-          if count >= 50:
+          if count >= 30:
             mode = max(set(anotherList), key = anotherList.count)
             inputPw.append(mode)
             print(mode)
