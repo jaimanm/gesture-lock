@@ -14,7 +14,7 @@ def getInput(num):
   mp_hands = mp.solutions.hands
   # For webcam input:
   for i in range(num) :
-    print("Prepare Gesture " + str(i + 1))
+    print("Prepare Gesture", (i + 1))
     time.sleep(1)
     count = 0
     anotherList = []
@@ -74,8 +74,8 @@ def getInput(num):
         else :
           anotherList.append(-1)
         # Flip the image horizontally for a selfie-view display.
-        cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
-        if count >= 50:
+        cv2.imshow('LockCamera', cv2.flip(image, 1))
+        if count >= 50 :
           mode = max(set(anotherList), key = anotherList.count)
           inputPw.append(mode)
           print(mode)
