@@ -101,15 +101,16 @@ def checkPw() :
 def setPw() :
   global locked, pw
   if locked == False :
-    print("input length of new password")
-    x = getInput(1)[0]
-    if not x == 0 :
-      pw = getInput(x)
+    print("Enter length of new password")
+    n = getInput(1)[0]
+    if not n == 0 :
+      pw = getInput(n)
       print("Password is now", pw)
       lock()
       print("set and locked")
   else :
     print("cannot set pw")
+
 def lock() :
   global locked
   if locked :
