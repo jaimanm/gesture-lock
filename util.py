@@ -76,7 +76,7 @@ class gesturelock:
                   s = s + "0"
                 else :
                   s = s + "1"
-              # convert binary to integer
+              # convert binary string to integer
               dec_number = int(s[::-1], 2)
               # store the detected number in a list (should be one for every frame of video)
               intsDetected.append(dec_number)
