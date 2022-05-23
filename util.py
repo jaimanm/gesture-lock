@@ -2,7 +2,7 @@ import time
 import cv2
 import mediapipe as mp
 import numpy as np
-from statistics import mode as getMode
+# from statistics import mode as getMode
 
 class gesturelock:
   def __init__(self, cap, locked, pw):
@@ -20,7 +20,7 @@ class gesturelock:
     for i in range(numGestures) :
       if not getCommand: print('Prepare Gesture', (i+1))
       else: print('Prepare Command')
-      time.sleep(0.5)
+      time.sleep(1)
       count = 0
       intsDetected = []
       with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
@@ -87,8 +87,8 @@ class gesturelock:
           cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
           if count >= 30: # use 30 frames of gesture
             # get mode of the list
-            # mode = max(set(intsDetected), key = intsDetected.count)
-            mode = getMode(intsDetected)
+            mode = max(set(intsDetected), key = intsDetected.count)
+            # mode = getMode(intsDetected)
             # add this gesture to the input
             inputPw.append(mode)
             # tell the user which number gesture was detected

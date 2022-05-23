@@ -18,13 +18,4 @@ while True :
   }
   if command in options: options[command]()
 
-  # if x == 0 :
-  #   print("Helper.lock()")
-  #   lock.lock()
-  # elif x == 31 :
-  #   print("Helper.unlock()")
-  #   lock.unlock()
-  # elif x == 1 :
-  #   print("Helper.setPw()")
-  #   lock.setPw()
   
