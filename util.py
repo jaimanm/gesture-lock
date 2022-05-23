@@ -2,6 +2,7 @@ import time
 import cv2
 import mediapipe as mp
 import numpy as np
+from statistics import mode as getMode
 
 class gesturelock:
   def __init__(self, cap, locked, pw):
@@ -21,7 +22,7 @@ class gesturelock:
       else: print('Prepare Command')
       time.sleep(0.5)
       count = 0
-      anotherList = []
+      intsDetected = []
       with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
         while self.cap.isOpened():
           success, image = self.cap.read()
@@ -51,6 +52,7 @@ class gesturelock:
               list = []
               for i in range(21):
                 temp = []
+                # store landmarks in a list
                 temp.append(hand_no)
                 temp.append(i)
                 temp.append(int(hand_landmarks.landmark[mp_hands.HandLandmark(i).value].x * self.cap.get(3)))
@@ -62,8 +64,10 @@ class gesturelock:
               #identify gesture
               s = ""
               for i in range(5) :
+                # find the middle of the palm (4 points)
                 averagePalmX = (list[0][2] + list[5][2] + list[13][2] + list[17][2]) / 4
                 averagePalmY = (list[0][3] + list[5][3] + list[13][3] + list[17][3]) / 4
+                # if tip of the finger is farther from center of palm than base of the finger, then its a 1. else 0
                 dist1 = np.hypot(list[(i + 1) * 4][2] - averagePalmX, list[((i + 1) * 4)][3] - averagePalmY)
                 dist2 = np.hypot(list[(i + 1) * 4 - 2][2] - averagePalmX, list[((i + 1) * 4 - 2)][3] - averagePalmY)
                 dist3 = np.hypot(list[(i + 1) * 4 - 1][2] - averagePalmX, list[((i + 1) * 4 - 1)][3] - averagePalmY)
@@ -72,21 +76,28 @@ class gesturelock:
                   s = s + "0"
                 else :
                   s = s + "1"
+              # convert binary to integer
               dec_number = int(s[::-1], 2)
-              anotherList.append(dec_number)
+              # store the detected number in a list (should be one for every frame of video)
+              intsDetected.append(dec_number)
           else :
-            anotherList.append(-1)
+            # if no hand is detected then store a -1 for that frame
+            intsDetected.append(-1)
           # Flip the image horizontally for a selfie-view display.
           cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
-          if count >= 30:
-            mode = max(set(anotherList), key = anotherList.count)
+          if count >= 30: # use 30 frames of gesture
+            # get mode of the list
+            # mode = max(set(intsDetected), key = intsDetected.count)
+            mode = getMode(intsDetected)
+            # add this gesture to the input
             inputPw.append(mode)
+            # tell the user which number gesture was detected
             print(mode)
             break
           count += 1 
-          if cv2.waitKey(5) == ord('q'):
+          if cv2.waitKey(5) == ord('q'): # command to end the program
             quit()
-    if len(inputPw) > 1: print(inputPw)
+    if len(inputPw) > 1: print(inputPw) # tell the user the entire input combination
     return inputPw
 
   def unlock(self) :
