@@ -14,7 +14,7 @@ while True :
   options = {
     0 : lock.lock, # closed hand
     31 : lock.unlock, # open hand
-    1 : lock.setPw, # thumb out
+    1 : lock.setPw, # thumbs up
   }
   if command in options: options[command]()
 
