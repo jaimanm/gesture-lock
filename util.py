@@ -60,24 +60,22 @@ class gesturelock:
                 temp.append(int(hand_landmarks.landmark[mp_hands.HandLandmark(i).value].z * -100))
                 list.append(temp)
 
+              # find the middle of the palm (4 points)
+              averagePalmX = (list[0][2] + list[5][2] + list[13][2] + list[17][2]) / 4
+              averagePalmY = (list[0][3] + list[5][3] + list[13][3] + list[17][3]) / 4
+
               #todo: create average of palm points to accurately depict thumb distance
               #identify gesture
-              s = ""
-              for i in range(5) :
-                # find the middle of the palm (4 points)
-                averagePalmX = (list[0][2] + list[5][2] + list[13][2] + list[17][2]) / 4
-                averagePalmY = (list[0][3] + list[5][3] + list[13][3] + list[17][3]) / 4
+              dec_number = 0
+              #start: 4, end: 24, step: 4
+              for i, b in zip(range(4, 24, 4), range(5)):
                 # if tip of the finger is farther from center of palm than base of the finger, then its a 1. else 0
-                dist1 = np.hypot(list[(i + 1) * 4][2] - averagePalmX, list[((i + 1) * 4)][3] - averagePalmY)
-                dist2 = np.hypot(list[(i + 1) * 4 - 2][2] - averagePalmX, list[((i + 1) * 4 - 2)][3] - averagePalmY)
-                dist3 = np.hypot(list[(i + 1) * 4 - 1][2] - averagePalmX, list[((i + 1) * 4 - 1)][3] - averagePalmY)
-                dist4 = np.hypot(list[(i + 1) * 4 - 3][2] - averagePalmX, list[((i + 1) * 4 - 3)][3] - averagePalmY)
-                if dist1 < dist2 or dist1 < dist3 or dist1 < dist4:
-                  s = s + "0"
-                else :
-                  s = s + "1"
-              # convert binary string to integer
-              dec_number = int(s[::-1], 2)
+                dist1 = np.hypot(list[i][2] - averagePalmX, list[i][3] - averagePalmY)
+                dist2 = np.hypot(list[i - 2][2] - averagePalmX, list[i - 2][3] - averagePalmY)
+                dist3 = np.hypot(list[i - 1][2] - averagePalmX, list[i - 1][3] - averagePalmY)
+                dist4 = np.hypot(list[i - 3][2] - averagePalmX, list[i - 3][3] - averagePalmY)
+                if dist1 > dist2 and dist1 > dist3 and dist1 > dist4:
+                  dec_number += 2**b
               # store the detected number in a list (should be one for every frame of video)
               intsDetected.append(dec_number)
           else :
@@ -117,6 +115,7 @@ class gesturelock:
     if self.locked == False :
       print("input length of new password")
       n = self.getInput(1)[0]
+      print("length of pw is", n)
       if not n == 0 :
         self.pw = self.getInput(n)
         print("Password is now", self.pw)
