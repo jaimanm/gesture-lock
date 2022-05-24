@@ -118,9 +118,11 @@ class gesturelock:
       print("length of pw is", n)
       if not n == 0 :
         self.pw = self.getInput(n)
-        print("Password is now", self.pw)
-        self.lock()
-        print("set and locked")
+      else :
+        self.pw = []
+      print("Password is now", self.pw)
+      self.lock()
+      print("set and locked")
     else :
       print("cannot set pw")
   
