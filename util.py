@@ -3,7 +3,6 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import RPi.GPIO as GPIO
-# from statistics import mode as getMode
 
 class gesturelock:
 
