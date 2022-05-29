@@ -2,13 +2,31 @@ import time
 import cv2
 import mediapipe as mp
 import numpy as np
+import RPi.GPIO as GPIO
 # from statistics import mode as getMode
 
 class gesturelock:
-  def __init__(self, cap, locked, pw):
+
+    
+  def __init__(self, cap, locked, pw, circuit=True):
     self.cap = cap
     self.locked = locked
     self.pw = pw
+    self.circuit = circuit
+
+    # for led setup
+    ledPIN = 4
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(4, GPIO.OUT)
+
+    #   for servo setup
+    servoPIN = 17
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(servoPIN, GPIO.OUT)
+    self.servo = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
+    self.servo.start(7.5) # Initialization
+    
+    
 
   def getInput(self, numGestures, getCommand=False):
     # numGestures = int(numGestures)
@@ -23,7 +41,7 @@ class gesturelock:
       time.sleep(1)
       count = 0
       intsDetected = []
-      with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+      with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
         while self.cap.isOpened():
           success, image = self.cap.read()
           if not success:
@@ -104,6 +122,10 @@ class gesturelock:
     if self.locked :
       if self.pw == self.getInput(len(self.pw)) :
         self.locked = False
+        if self.circuit:
+          print ("led off")
+          GPIO.output(4, GPIO.LOW)
+          self.servo.ChangeDutyCycle(2.5)
         print("unlocked")
       else :
         print("wrong pw")
@@ -131,6 +153,10 @@ class gesturelock:
     if self.locked :
       print("already locked")
     else :
-      self.locked = True
+      if self.circuit:
+        self.locked = True
+        print ("led on")
+        GPIO.output(4, GPIO.HIGH)
+        self.servo.ChangeDutyCycle(7.5)
       print("locked")
     
