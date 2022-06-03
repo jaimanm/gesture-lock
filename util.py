@@ -7,25 +7,25 @@ import RPi.GPIO as GPIO
 class gesturelock:
 
     
-  def __init__(self, cap, locked, pw, circuit=False):
+  def __init__(self, cap, locked, pw):
     self.cap = cap
     self.locked = locked
     self.pw = pw
-    self.circuit = circuit
+    
+    # for led setup
+    self.ledPIN = 4
+    self.ledPIN2 = 21
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(self.ledPIN, GPIO.OUT)
+    GPIO.output(self.ledPIN, GPIO.LOW)
+    GPIO.setup(self.ledPIN2, GPIO.OUT)
+    GPIO.output(self.ledPIN2, GPIO.LOW)
 
-    if self.circuit:
-      # for led setup
-      self.ledPIN = 4
-      GPIO.setmode(GPIO.BCM)
-      GPIO.setup(self.ledPIN, GPIO.OUT)
-      GPIO.output(self.ledPIN, GPIO.LOW)
-
-      #   for servo setup
-      servoPIN = 17
-      GPIO.setmode(GPIO.BCM)
-      GPIO.setup(servoPIN, GPIO.OUT)
-      self.servo = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
-      self.servo.start(7.5) # Initialization
+    #   for servo setup
+    servoPIN = 17
+    GPIO.setup(servoPIN, GPIO.OUT)
+    self.servo = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
+    self.servo.start(7.5) # Initialization
     
     
 
@@ -124,10 +124,9 @@ class gesturelock:
     if self.locked :
       if self.pw == self.getInput(len(self.pw)) :
         self.locked = False
-        if self.circuit:
-          # print ("led off")
-          # GPIO.output(self.ledPIN, GPIO.LOW)
-          self.servo.ChangeDutyCycle(2.5) # servo pointed right
+        print ("led off")
+        GPIO.output(self.ledPIN2, GPIO.LOW)
+        self.servo.ChangeDutyCycle(2.5) # servo pointed right
         print("unlocked")
       else :
         print("wrong pw")
@@ -155,11 +154,10 @@ class gesturelock:
     if self.locked :
       print("already locked")
     else :
-      if self.circuit:
-        self.locked = True
-        # print ("led on")
-        # GPIO.output(self.ledPIN, GPIO.HIGH)
-        self.servo.ChangeDutyCycle(7.5) # servo pointed upwards
+      self.locked = True
+      print ("led on")
+      GPIO.output(self.ledPIN2, GPIO.HIGH)
+      self.servo.ChangeDutyCycle(7.5) # servo pointed upwards
       print("locked")
 
   def flashLED(self):
