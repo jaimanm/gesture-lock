@@ -103,7 +103,7 @@ class gesturelock:
             # if no hand is detected then store a -1 for that frame
             intsDetected.append(-1)
           # Flip the image horizontally for a selfie-view display.
-          cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
+          cv2.imshow('Gesture Lock', cv2.flip(image, 1))
           if count >= 30: # use 30 frames of gesture
             # get mode of the list
             mode = max(set(intsDetected), key = intsDetected.count)
