@@ -18,7 +18,7 @@ def getInput(num):
     time.sleep(1)
     count = 0
     anotherList = []
-    with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+    with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5, max_num_hands = 1) as hands:
       while cap.isOpened():
         
         success, image = cap.read()
