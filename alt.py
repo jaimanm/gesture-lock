@@ -118,6 +118,8 @@ def lock() :
   else :
     locked = True
     print("locked")
+
+print("PRESS Q IN THE CAMERA WINDOW TO QUIT PROGRAM")
 setPw()
 while True :
   x = getInput(1)[0]
