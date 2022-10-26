@@ -44,4 +44,4 @@ The lock will prompt you to show each gesture in the passcode, and will unlock i
         Called by getInput()
         Flashed the blue led for 200ms
 
-* NOTE: main.py will only run on the raspberry pi. If you want to run the code on your own computer, use alex.py
+* NOTE: main.py will only run on the raspberry pi. If you want to run the code on your own computer, use alt.py
