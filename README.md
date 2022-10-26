@@ -1,5 +1,5 @@
-Made by: Jaiman Munshi (10), Alex Zhang (10), Nancy Puthenpurayil (11)
-Made for: APCSA end of year project 2021-2022, Ridge Robotics Club 2021-2022
+##### Made by: Jaiman Munshi (10), Alex Zhang (10), Nancy Puthenpurayil (11)
+##### Made for: APCSA end of year project 2021-2022, Ridge Robotics Club 2021-2022
 
 # GESTURE LOCK
 
@@ -14,8 +14,8 @@ The gesture passcode is based on binary, where each finger on your hand represen
 
 The lock will prompt you to show each gesture in the passcode, and will unlock if you show the right combination of finger binary symbols. Once unlocked, you will have the option to change the password or lock. The new password can be any length > 0. If there are no hands detected when you're prompted to show a gesture, the lock will record a value of -1.
 
-Method List:
-    getInput:
+#### Methods:
+    getInput
         Called by unlock() and setPw()
         Takes parameter for number of gestures to look for
         Uses mediapipe to get real-time coordinates of each hand landmark
@@ -24,24 +24,24 @@ Method List:
         Converts the five 0/1's into a decimal number (-1 -> 31)
         Determines the number that the user most likely entered based on the mode of numbers in a certain number of frames of video (30)
         Returns a list of the gestures that the user put in
-    setPw:
+    setPw
         "Thumbs Up" to activate
         Lock must be unlocked to work
         First use Finger Binary to determine the length of the new password
         Set the password by showing each desired gesture/Finger Binary input after each prompt
         Lock will be locked and the password will be set once completed
-    unlock:
+    unlock
         "Open Hand" to activate
         Lock must be locked to work
         Show each correct gesture/Finger Binary input after each prompt
         Lock will be unlocked if the input matches the password
         Lock will remain locked if the input does not match the password
-    lock:
+    lock
         "Closed Fist" to activate
         Lock must be unlocked to work
         Lock will lock
-    flashLED:
+    flashLED
         Called by getInput()
         Flashed the blue led for 200ms
 
-*** NOTE: main.py will only run on the raspberry pi. If you want to run the code on your own computer, use alex.py ***
+* NOTE: main.py will only run on the raspberry pi. If you want to run the code on your own computer, use alex.py
