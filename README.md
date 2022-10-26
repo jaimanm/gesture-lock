@@ -1,7 +1,7 @@
 Made by: Jaiman Munshi (10), Alex Zhang (10), Nancy Puthenpurayil (11)
 Made for: APCSA end of year project 2021-2022, Ridge Robotics Club 2021-2022
 
-----GESTURE LOCK----
+# GESTURE LOCK
 
 A lock that is unlocked not by a key, or a number wheel, or a fingerprint, but by displaying the right hand gesture or gestures in front of the lock.
 A camera embedded in the lock will scan for the right gesture(s).
