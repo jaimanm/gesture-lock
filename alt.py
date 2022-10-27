@@ -18,7 +18,7 @@ def getInput(num):
     time.sleep(1)
     count = 0
     anotherList = []
-    with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+    with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5, max_num_hands = 1) as hands:
       while cap.isOpened():
         
         success, image = cap.read()
@@ -74,8 +74,8 @@ def getInput(num):
         else :
           anotherList.append(-1)
         # Flip the image horizontally for a selfie-view display.
-        cv2.imshow('LockCamera', cv2.flip(image, 1))
-        if count >= 50 :
+        cv2.imshow('Gesture Lock', cv2.flip(image, 1))
+        if count >= 30:
           mode = max(set(anotherList), key = anotherList.count)
           inputPw.append(mode)
           print(mode)
@@ -118,6 +118,8 @@ def lock() :
   else :
     locked = True
     print("locked")
+
+print("PRESS Q IN THE CAMERA WINDOW TO QUIT PROGRAM")
 setPw()
 while True :
   x = getInput(1)[0]
