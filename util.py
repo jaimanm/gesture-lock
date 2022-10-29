@@ -40,7 +40,7 @@ class gesturelock:
       if not getCommand: print('Prepare Gesture', (i+1))
       else: print('Prepare Command')
       self.flashLED()
-      time.sleep(1)
+      # time.sleep(1)
       count = 0
       intsDetected = []
       with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5, max_num_hands=1) as hands:
@@ -104,7 +104,7 @@ class gesturelock:
             intsDetected.append(-1)
           # Flip the image horizontally for a selfie-view display.
           cv2.imshow('Gesture Lock', cv2.flip(image, 1))
-          if count >= 30: # use 30 frames of gesture
+          if count >= 70: # use 70 frames of gesture
             # get mode of the list
             mode = max(set(intsDetected), key = intsDetected.count)
             # mode = getMode(intsDetected)
