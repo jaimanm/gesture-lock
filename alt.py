@@ -15,7 +15,7 @@ def getInput(num):
   # For webcam input:
   for i in range(num) :
     print("Prepare Gesture", (i + 1))
-    time.sleep(1)
+    # time.sleep(1)
     count = 0
     anotherList = []
     with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5, max_num_hands = 1) as hands:
@@ -75,7 +75,7 @@ def getInput(num):
           anotherList.append(-1)
         # Flip the image horizontally for a selfie-view display.
         cv2.imshow('Gesture Lock', cv2.flip(image, 1))
-        if count >= 30:
+        if count >= 70:
           mode = max(set(anotherList), key = anotherList.count)
           inputPw.append(mode)
           print(mode)
